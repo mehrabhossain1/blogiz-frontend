@@ -12,7 +12,7 @@ const AllBlogsPage = () => {
 
   // using rtk query
   const { data: blogs, isLoading } = useGetBlogsQuery({});
-  console.log(blogs);
+  // console.log(blogs);
 
   return (
     <div className="w-[90%] mx-auto my-5">
