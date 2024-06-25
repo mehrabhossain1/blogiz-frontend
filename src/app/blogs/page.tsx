@@ -1,12 +1,18 @@
+"use client";
 import BlogCard from "@/components/ui/BlogCard";
+import { useGetBlogsQuery } from "@/redux/api/baseApi";
 import { IBlog } from "@/types";
 
-const AllBlogsPage = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/blogs", {
-    // SSR (Server Side Rendering) it'll get every blogs in every request
-    cache: "no-store",
-  });
-  const blogs = await res.json();
+const AllBlogsPage = () => {
+  // const res = await fetch("http://localhost:5000/api/v1/blogs", {
+  //   // SSR (Server Side Rendering) it'll get every blogs in every request
+  //   cache: "no-store",
+  // });
+  // const blogs = await res.json();
+
+  // using rtk query
+  const { data: blogs, isLoading } = useGetBlogsQuery({});
+  console.log(blogs);
 
   return (
     <div className="w-[90%] mx-auto my-5">
@@ -21,11 +27,13 @@ const AllBlogsPage = async () => {
       </p>
 
       {/* All blogs */}
-      <div className="grid grid-cols-3 gap-4 my-5">
-        {blogs.map((blog: IBlog) => (
-          <BlogCard key={blog.id} blog={blog} />
-        ))}
-      </div>
+      {!isLoading && (
+        <div className="grid grid-cols-3 gap-4 my-5">
+          {blogs.map((blog: IBlog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
